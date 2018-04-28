@@ -1,6 +1,6 @@
 # LinqSample
 
--delegate
--generic
--yield return
--extionsion methods
+-delegate          
+-generic            
+-yield return                  
+-extionsion methods                         
