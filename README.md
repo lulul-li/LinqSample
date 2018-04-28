@@ -1,0 +1,4 @@
+# LinqSample
+
+#delegate
+#
