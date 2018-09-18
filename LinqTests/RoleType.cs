@@ -1,4 +1,4 @@
-﻿internal enum RoleType
+﻿public enum RoleType
 {
     Engineer,
     OP,

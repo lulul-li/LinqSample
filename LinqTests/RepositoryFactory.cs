@@ -41,5 +41,33 @@ namespace LinqTests
                 new Employee{Name="Joey", Role=RoleType.Engineer, MonthSalary=250, Age=40, WorkingYear=2.6},
             };
         }
+        public static IEnumerable<ColorBall> GetBalls()
+        {
+            return new List<ColorBall>
+            {
+                new ColorBall{Color=Color.Blue, Size="L", Prize=200},
+                new ColorBall{Color=Color.Purple, Size="L", Prize=350},
+                new ColorBall{Color=Color.Yellow, Size="S", Prize=300},
+                new ColorBall{Color=Color.Purple, Size="S", Prize=500},
+                new ColorBall{Color=Color.Purple, Size="L", Prize=450},
+                new ColorBall{Color=Color.Yellow, Size="M", Prize=500},
+            };
+        }
+
+
+        internal enum Color
+        {
+            Purple,
+            Blue,
+            Yellow,
+            Green
+        }
+
+        internal class ColorBall
+        {
+            public Color Color { get; set; }
+            public string Size { get; set; }
+            public int Prize { get; set; }
+        }
     }
 }

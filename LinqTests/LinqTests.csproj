@@ -64,7 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Employee.cs" />
-    <Compile Include="MyWhere.cs" />
+    <Compile Include="LuluLinq.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="RepositoryFactory.cs" />
     <Compile Include="RoleType.cs" />

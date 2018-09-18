@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ExpectedObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 
 namespace LinqTests
 {
@@ -277,6 +279,13 @@ namespace LinqTests
         }
 
         [TestMethod]
+        public void FirstOrDefault()
+        {
+            var products = RepositoryFactory.GetProducts();
+            var actual = products.MyAll(x => x.Price > 200);
+            Assert.IsFalse(actual);
+        }
+        [TestMethod]
         public void distinct()
         {
             var employees = RepositoryFactory.GetEmployees();
@@ -288,6 +297,106 @@ namespace LinqTests
                 RoleType.OP
             };
             expected.ToExpectedObject().ShouldEqual(actual.ToList());
+          
+        }
+
+        [TestMethod]
+        public void distinct1()
+        {
+            var employees = RepositoryFactory.GetEmployees();
+            var actual = employees.MyDistinct1(new EmployeeComparer());
+            var expected = new List<Employee>()
+            {
+                new Employee { Name = "Joe", Role = RoleType.Engineer, MonthSalary = 100, Age = 44, WorkingYear = 2.6 },
+                new Employee { Name = "Kevin", Role = RoleType.Manager, MonthSalary = 380, Age = 55, WorkingYear = 2.6 },
+                new Employee { Name = "Andy", Role = RoleType.OP, MonthSalary = 80, Age = 22, WorkingYear = 2.6 }
+            };
+            expected.ToExpectedObject().ShouldEqual(actual.ToList());
+
+        }
+        [TestMethod]
+        public void single()
+        {
+            var employees = RepositoryFactory.GetEmployees();
+        }
+
+        [TestMethod]
+        public void luckball()
+        {
+            var ball = RepositoryFactory.GetBalls();
+            var luckyBall =
+                new RepositoryFactory.ColorBall {Color = RepositoryFactory.Color.Purple, Size = "S", Prize = 500};
+           
+            Assert.IsTrue(myContants(ball,luckyBall));
+
+        }
+        [TestMethod]
+        public void TestsequenceComparer()
+        {
+            var ball = RepositoryFactory.GetBalls();
+            var luckyBall = RepositoryFactory.GetBalls();
+            Assert.IsTrue(MySequenceComparer(ball, luckyBall));
+
+        }
+
+        private bool MySequenceComparer(IEnumerable<RepositoryFactory.ColorBall> ball, IEnumerable<RepositoryFactory.ColorBall> luckyBall)
+        {
+            return false;
+
+        }
+
+        private bool myContants(IEnumerable<RepositoryFactory.ColorBall> ball, RepositoryFactory.ColorBall luckyBall)
+        {
+            var ballEnumer = ball.GetEnumerator();
+            var ballComparer = new BallComparer();
+            while (ballEnumer.MoveNext())
+            {
+                if (ballComparer.Equals(ballEnumer.Current,luckyBall))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    public class EmployeeComparer:IEqualityComparer<Employee>
+    {
+        public bool Equals(Employee x, Employee y)
+        {
+            return x.Role == y.Role;
+        }
+
+        public int GetHashCode(Employee obj)
+        {
+            return obj.Role.GetHashCode();
+        }
+    }
+
+    internal class BallComparer:IEqualityComparer<RepositoryFactory.ColorBall>
+    {
+        public bool Equals(RepositoryFactory.ColorBall x, RepositoryFactory.ColorBall y)
+        {
+            return x.Color == y.Color && x.Prize == y.Prize && x.Size == y.Size;
+        }
+
+
+        public int GetHashCode(RepositoryFactory.ColorBall obj)
+        {
+            return 0;
+        }
+    }
+
+    public class MyEqualCompare : IEqualityComparer<Employee>
+    {
+        public bool Equals(Employee x, Employee y)
+        {
+            return x.Role == y.Role;
+        }
+
+        public int GetHashCode(Employee obj)
+        {
+            return 0;
         }
     }
 

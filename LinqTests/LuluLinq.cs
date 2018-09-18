@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using ExpectedObjects;
 
 namespace LinqTests
 {
-    public static class MyWhere
+    public static class LuluLinq
     {
         public static IEnumerable<TSource> MyOwnWhere<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> func)
         {
@@ -163,6 +164,19 @@ namespace LinqTests
                 }
             }
             return result;
+        }
+        public static IEnumerable<TSource> MyDistinct1<TSource>(this IEnumerable<TSource> source, IEqualityComparer<TSource> employeeComparer)
+        {
+            
+            var r = source.GetEnumerator();
+            var hashSet=new HashSet<TSource>(employeeComparer);
+            while (r.MoveNext())
+            {
+                if (hashSet.Add(r.Current))
+                {
+                    yield return r.Current;
+                }
+            }
         }
         
     }
