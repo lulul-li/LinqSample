@@ -1,6 +1,6 @@
 ﻿namespace LinqTests
 {
-    internal class Employee
+    public class Employee
     {
         public string Name { get; set; }
         public RoleType Role { get; set; }
